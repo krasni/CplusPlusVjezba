@@ -6,4 +6,5 @@ int main()
 {
 	Log("Hello world");
 	std::cin.get();
+
 }
