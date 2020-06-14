@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VjezbaCplusPlus", "VjezbaCplusPlus\VjezbaCplusPlus.vcxproj", "{B667B06D-2DF2-4CAE-A185-11C7D00315EA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dokumenti", "Dokumenti", "{70A7B814-E33A-461B-8E89-1484B6FC4A72}"
+	ProjectSection(SolutionItems) = preProject
+		Info.txt = Info.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
