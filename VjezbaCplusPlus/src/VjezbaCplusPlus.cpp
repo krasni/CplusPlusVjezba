@@ -85,22 +85,22 @@ std::ostream& operator<<(std::ostream& stream, const Vertex& vertex)
 	stream << vertex.x << ", " << vertex.y << ", " << vertex.z;
 	return stream;
 }
-
+	
 int main()
 {
-	//int a = glfwInit();
-	//std::cout << a << std::endl; 
+	int a = glfwInit();
+	std::cout << a << std::endl; 
 
 	//{
 	//	std::unique_ptr<Entity> entity = std::make_unique<Entity>();
 	//	entity->Print();
 	//}
 
-	std::vector<Vertex> vertices;
-	vertices.reserve(3);
-	vertices.emplace_back(1, 2, 3);
-	vertices.emplace_back( 4, 5, 6);
-	vertices.emplace_back(7, 8, 9);
+	//std::vector<Vertex> vertices;
+	//vertices.reserve(3);
+	//vertices.emplace_back(1, 2, 3);
+	//vertices.emplace_back( 4, 5, 6);
+	//vertices.emplace_back(7, 8, 9);
 
 	std::cin.get();
 }
