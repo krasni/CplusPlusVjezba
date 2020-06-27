@@ -1,0 +1,3 @@
+﻿clang-tidy , PVS-Studio - statička analiza
+chrome tracing analiza (odlično)
+wandbox.org online c++ compiler

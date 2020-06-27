@@ -1,106 +1,43 @@
-#include <iostream>
-#include <string>
-#include <memory>
 #include <GLFW/glfw3.h>
-#include <vector>
 
-
-#define LOG(x) std::cout << x << std:endl;
-
-class Log {
-public:
-	enum Level 
-	{
-		LevelError = 0, LevelWarning, LevelInfo
-	};
-private:
-	Level m_LogLevel = LevelInfo;
-public:
-	void SetLevel(Level level)
-	{
-		m_LogLevel = level;
-	}
-
-	void Info(const char* message)
-	{
-		if (m_LogLevel >= LevelInfo)
-			std::cout << "[INFO]: " << message << std::endl;
-	}
-
-	void Warn(const char* message)
-	{
-		if (m_LogLevel >= LevelWarning)
-			std::cout << "[WARNING]: " << message << std::endl;
-	}
-
-	void Error(const char* message)
-	{
-		if (m_LogLevel >= LevelError)
-			std::cout << "[ERROR]: " << message << std::endl;
-	}
-};
-
-class Entity
+int main(void)
 {
-public:
-	Entity()
+	GLFWwindow* window;
+
+	/* Initialize the library */
+	if (!glfwInit())
+		return -1;
+
+	/* Create a windowed mode window and its OpenGL context */
+	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+	if (!window)
 	{
-		std::cout << "Kreirano Entity!" << std::endl;
+		glfwTerminate();
+		return -1;
 	}
 
-	~Entity()
+	/* Make the window's context current */
+	glfwMakeContextCurrent(window);
+
+	/* Loop until the user closes the window */
+	while (!glfwWindowShouldClose(window))
 	{
-		std::cout << "Destruktno Entity!" << std::endl;
+		/* Render here */
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		glBegin(GL_TRIANGLES);
+		glVertex2f(-0.5f, -0.5f);
+		glVertex2f(-0.0f, 0.5f);
+		glVertex2f(0.5f, -0.5f);
+		glEnd();
+
+		/* Swap front and back buffers */
+		glfwSwapBuffers(window);
+
+		/* Poll for and process events */
+		glfwPollEvents();
 	}
 
-	void Print()
-	{
-			
-	}
-};
-
-struct Vertex
-{
-	float x, y, z;
-
-	Vertex(float x, float y, float z)
-		:x(x), y(y), z(z)
-	{
-	}
-
-	Vertex(const Vertex& vertex)
-		:x(x), y(y), z(z)
-	{
-		std::cout << "Copied!" << std::endl;
-	}
-
-	~Vertex()
-	{
-		//std::cout << "destroyed" << std::endl;
-	}
-};
-
-std::ostream& operator<<(std::ostream& stream, const Vertex& vertex)
-{
-	stream << vertex.x << ", " << vertex.y << ", " << vertex.z;
-	return stream;
-}
-	
-int main()
-{
-	int a = glfwInit();
-	std::cout << a << std::endl; 
-
-	//{
-	//	std::unique_ptr<Entity> entity = std::make_unique<Entity>();
-	//	entity->Print();
-	//}
-
-	//std::vector<Vertex> vertices;
-	//vertices.reserve(3);
-	//vertices.emplace_back(1, 2, 3);
-	//vertices.emplace_back( 4, 5, 6);
-	//vertices.emplace_back(7, 8, 9);
-
-	std::cin.get();
+	glfwTerminate();
+	return 0;
 }
