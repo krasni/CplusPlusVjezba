@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <cassert>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -12,6 +13,21 @@ struct ShaderProgramSource
 	std::string VertexSource;
 	std::string FragmentSource;
 };
+
+static void GLAPIENTRY errorOccurredGL(GLenum source,
+	GLenum type,
+	GLuint id,
+	GLenum severity,
+	GLsizei length,
+	const GLchar* message,
+	const void* userParam)
+{
+	printf("Message from OpenGL:\nSource: 0x%x\nType: 0x%x\n"
+		"Id: 0x%x\nSeverity: 0x%x\n", source, type, id, severity);
+	printf("%s\n", message);
+	exit(-1); // shut down the program gracefully (it does cleanup stuff too)
+  // without exit(), OpenGL will constantly print the error message... make sure to kill your program.
+}
 
 static ShaderProgramSource ParseShader(const std::string& filePath)
 {
@@ -93,6 +109,8 @@ int main(void)
 	if (!glfwInit())
 		return -1;
 
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
 	if (!window)
@@ -103,6 +121,8 @@ int main(void)
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
+
+	glfwSwapInterval(1);
 
 	if(glewInit() != GLEW_OK)
 		std::cout << "Error!" << std::endl;
@@ -138,13 +158,31 @@ int main(void)
 	unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
 	glUseProgram(shader);
 
+	int location = glGetUniformLocation(shader, "u_Color");
+	assert(location != -1);
+	glUniform4f(location, 0.4f, 0.3f, 0.8f, 1.0f);
+		
+	glEnable(GL_DEBUG_OUTPUT);
+	glDebugMessageCallback(errorOccurredGL, NULL);
+
+	float r = 0.0f;
+	float increment = 0.05f;
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		glUniform4f(location, r, 0.3f, 0.8f, 1.0f);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+		if (r > 1.0f)
+			increment = -0.05f;
+		else if (r < 0.0f)
+			increment = 0.05f;
+
+		r += increment;
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
